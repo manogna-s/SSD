@@ -82,8 +82,8 @@ def dict_to_tf_example(annotation,
   """
 
     annotation = annotation.split(' ')
-    bbox_labels = annotation[1:]
-    n_products = len(bbox_labels)//5
+    n_products = int(annotation[1])
+    bbox_labels = annotation[2:]
     img_path = os.path.join(image_subdirectory, annotation[0])
     with tf.gfile.GFile(img_path, 'rb') as fid:
         encoded_jpg = fid.read()
@@ -111,7 +111,10 @@ def dict_to_tf_example(annotation,
             ymin = float(bbox_labels[i*5+1])
             xmax = xmin+float(bbox_labels[i*5+2])
             ymax = ymin+float(bbox_labels[i*5+3])
-
+            if(xmax>=width):
+                xmax=width-1
+            elif (ymax>=height):
+                ymax=height-1
             xmins.append(xmin / width)
             ymins.append(ymin / height)
             xmaxs.append(xmax / width)
