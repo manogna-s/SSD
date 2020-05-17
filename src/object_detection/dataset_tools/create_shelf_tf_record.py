@@ -18,7 +18,7 @@ r"""Convert the Grocery Shelf dataset to TFRecord for object_detection.
 Usage:
     python object_detection/dataset_tools/create_shelf_tf_record.py \
         --data_dir=/path/to/ShelfImages \
-        --output_dir=/path/to/data_tfrecords
+        --output_dir=/path/to/tfrecord_dir
 """
 
 import hashlib
@@ -39,7 +39,7 @@ from object_detection.utils import label_map_util
 
 flags = tf.app.flags
 flags.DEFINE_string('data_dir', '../data/ShelfImages', 'Root directory to Grocer Shelf dataset.')
-flags.DEFINE_string('output_dir', '../data/data_tfrecords', 'Path to directory to output TFRecords.')
+flags.DEFINE_string('output_dir', '../data/ShelfImages', 'Path to directory to output TFRecords.')
 flags.DEFINE_string('label_map_path', '../data/shelf_label_map.pbtxt',
                     'Path to label map proto')
 flags.DEFINE_integer('num_shards', 1, 'Number of TFRecord shards')

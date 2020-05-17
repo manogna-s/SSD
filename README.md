@@ -68,7 +68,7 @@ $python3 object_detection/dataset_tools/create_shelf_tf_record.py
 
 Run the following command to download pretrained model which saves it to PROJECT_DIR/pretrained_ckpt
 ```bash
-$get_pretrained_model.sh
+$bash get_pretrained_model.sh
 ```
 
 Training can be initiated with the following command:
