@@ -13,17 +13,12 @@
 # limitations under the License.
 # ==============================================================================
 
-r"""Convert the Oxford pet dataset to TFRecord for object_detection.
+r"""Convert the Grocery Shelf dataset to TFRecord for object_detection.
 
-See: O. M. Parkhi, A. Vedaldi, A. Zisserman, C. V. Jawahar
-     Cats and Dogs
-     IEEE Conference on Computer Vision and Pattern Recognition, 2012
-     http://www.robots.ox.ac.uk/~vgg/data/pets/
-
-Example usage:
+Usage:
     python object_detection/dataset_tools/create_shelf_tf_record.py \
-        --data_dir=/home/user/pet \
-        --output_dir=/home/user/pet/output
+        --data_dir=/path/to/ShelfImages \
+        --output_dir=/path/to/data_tfrecords
 """
 
 import hashlib
@@ -43,9 +38,9 @@ from object_detection.utils import dataset_util
 from object_detection.utils import label_map_util
 
 flags = tf.app.flags
-flags.DEFINE_string('data_dir', '../grocerydataset/ShelfImages', 'Root directory to raw pet dataset.')
-flags.DEFINE_string('output_dir', '../grocerydataset/data_tfrecords', 'Path to directory to output TFRecords.')
-flags.DEFINE_string('label_map_path', 'object_detection/data/shelf_label_map.pbtxt',
+flags.DEFINE_string('data_dir', '../data/ShelfImages', 'Root directory to Grocer Shelf dataset.')
+flags.DEFINE_string('output_dir', '../data/data_tfrecords', 'Path to directory to output TFRecords.')
+flags.DEFINE_string('label_map_path', '../data/shelf_label_map.pbtxt',
                     'Path to label map proto')
 flags.DEFINE_integer('num_shards', 1, 'Number of TFRecord shards')
 
