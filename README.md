@@ -25,6 +25,8 @@ Tensorflow Object Detection API depends on the following libraries:
 
 To install
 ```bash
+#Set project directory root path 
+$export PROJECT_DIR=`pwd`
 #From PROJECT_DIR/src
 $bash setup_object_detection_api.sh
 ```
@@ -47,12 +49,11 @@ environment.
       -prod_det_pipeline.config
 ```
 
-##Data Preparation
+###Data Preparation
 
 Download data, get train and test annotations
 ```bash
 #From PROJECT_DIR
-$export PROJECT_DIR=`pwd`
 $bash prepare_data.sh
 ```
 
@@ -64,10 +65,11 @@ $python3 object_detection/dataset_tools/create_shelf_tf_record.py
 
 ## Training
 
-####Get Pretrained model(SSD MobileNetv1 trained for COCO used here)
+###Get Pretrained model(SSD MobileNetv1 trained for COCO used here)
 
 Run the following command to download pretrained model which saves it to PROJECT_DIR/pretrained_ckpt
 ```bash
+#From PROJECT_DIR
 $bash get_pretrained_model.sh
 ```
 
