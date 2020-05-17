@@ -21,7 +21,7 @@ def get_train_test_annotations(data_dir, annotations_txt, train_annotations, tes
 
 
 data_dir = './ShelfImages'
-annotation_file = './annotation.txt'
+annotation_file = './annotations/annotation.txt'
 train_annotations = os.path.join(data_dir, 'train_annotations.txt')
 test_annotations = os.path.join(data_dir, 'test_annotations.txt')
 get_train_test_annotations(data_dir, annotation_file, train_annotations, test_annotations)
