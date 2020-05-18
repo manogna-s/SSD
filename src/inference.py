@@ -8,7 +8,7 @@ import numpy as np
 PROJECT_DIR = '../'
 GRAPH_PB_PATH = os.path.join(PROJECT_DIR, 'trained_model/frozen_inference_graph.pb')
 TEST_DIR = os.path.join(PROJECT_DIR, 'data/ShelfImages/test')
-RESULTS_JSON_FILE=os.path.join(PROJECT_DIR, 'data/results.json')
+RESULTS_JSON_FILE=os.path.join(PROJECT_DIR, 'data/img2products.json')
 # Load TensorFlow graph from pb file
 detection_graph = tf.Graph()
 with detection_graph.as_default():
@@ -36,6 +36,6 @@ with detection_graph.as_default():
             (boxes, scores, classes, num_detections) = sess.run(
                 [boxes_tensor, scores_tensor, classes_tensor, num_detections_tensor],
                 feed_dict={image_tensor: image_np_expanded})
-            img2products[img_path]=num_detections
+            img2products[img_path]=int(num_detections[0])
         with open(RESULTS_JSON_FILE, 'w') as fp:
             json.dump(img2products, fp)
