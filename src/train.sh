@@ -1,4 +1,4 @@
-PIPELINE_CONFIG_PATH=$PROJECT_DIR/config/prod_det_pipeline.config
+PIPELINE_CONFIG_PATH=$PROJECT_DIR/pipeline_configs/prod_det_pipeline.config
 MODEL_DIR=$PROJECT_DIR/model_logs
 NUM_TRAIN_STEPS=50000
 python3 object_detection/model_main.py \

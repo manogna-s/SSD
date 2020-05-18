@@ -1,110 +1,54 @@
+## Detection Network
 
+SSD network based on MobileNetv1 feature extractor is used in this model. 
+The [pretrained model](http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v1_coco_2018_01_28.tar.gz) used was trained on COCO dataset.
+The input size for the network used was 300x300.
 
-This page walks through the steps required to train an object detection model
-on a local machine. The source code is taken from [Tensorflow Object Detection API](https://github.com/tensorflow/models/tree/8518d053936aaf30afb9ed0a4ea01baddca5bd17/research/object_detection). 
+##Training configuration
 
-# Installation
-
-This code is tested on an Ubuntu system. It requires Python 3 to be installed.
-### Dependencies
-
-Tensorflow Object Detection API depends on the following libraries:
-
-*   Protobuf 3.0.0
-*   Python-tk
-*   Pillow 1.0
-*   lxml
-*   tf Slim 
-*   Jupyter notebook
-*   Matplotlib
-*   Tensorflow (1.15)
-*   Cython
-*   contextlib2
-*   cocoapi
-*   opencv
-
-To install
-```bash
-#Set project directory root path 
-$export PROJECT_DIR=`pwd`
-#From PROJECT_DIR/src
-$bash setup_object_detection_api.sh
+* Batch size: 24
+* Data augmentation:
+    The following two augmentations are applied randomly to images during training:
+        1. SSD Random Crop: Images are cropped randomly with IoU of the crop and an object being 
+        in the range of [0.1,0.9]. The crop is retained if it contains the center of the bounding 
+        box else discarded.
+        2. Random horizontal flip: The images and crops generated using the above methos are randomly
+        flipped horizontally.
+* Anchor boxes:  6 feature maps from the network were used with one anchor box per feature map cell
+    with aspect ratio of 0.66.
+* Optimizer: An RMS Prop optimizer with the following parameters were used:
 ```
-This installs all the library dependencies, compiling the configuration protobufs and setting up the Python
-environment.
-
-
-## Recommended Directory Structure for Training and Evaluation
-
+optimizer {
+   rms_prop_optimizer {
+     learning_rate {
+       exponential_decay_learning_rate {
+         initial_learning_rate: 0.00400000018999
+         decay_steps: 8000
+         decay_factor: 0.7
+       }
+     }
+     momentum_optimizer_value: 0.899999976158
+     decay: 0.899999976158
+     epsilon: 1.0
+   }
 ```
-+PROJECT_DIR
-    +data
-      -label_map file
-      -train TFRecord file
-      -eval TFRecord file
-    +src
-      + object_detection
-      + slim
-    +config
-      -prod_det_pipeline.config
-```
+Refer to config/prod_det_pipeline.config for model configuration details.
 
-###Data Preparation
+ 
+##Q & A:
+* What is the purpose of using multiple anchors per feature map cell?
+Anchor boxes span different shapes of object bounding boxes possible. Aspect ratios which are 
+basically the width to height ratio of a box captures the shape of a rectangular bounding box. 
+While the feature map dimensions span the scale of objects a model can detect, anchors span the 
+shape of objects a model can detect. Every feature map cell corresponds to a receptive field in
+the input image. There can be multiple anchors at each feature map cell allowing different 
+shapes of boxes in the receptive field corresponding to that feature map cell. Depending on the
+dataset, analyzing the distribution of aspect ratios in the available ground truth data can help
+choose the aspect ratios for the respective task.
 
-Download data, get train and test annotations
-```bash
-#From PROJECT_DIR
-$bash prepare_data.sh
-```
 
-Prepare tfrecord files used for training and validation
-```bash
-#From PROJECT_DIR/src
-$python3 object_detection/dataset_tools/create_shelf_tf_record.py
-```
-
-## Training
-
-###Get Pretrained model(SSD MobileNetv1 trained for COCO used here)
-
-Run the following command to download pretrained model which saves it to PROJECT_DIR/pretrained_ckpt
-```bash
-#From PROJECT_DIR
-$bash get_pretrained_model.sh
-```
-
-Training can be initiated with the following command:
-
-```bash
-# From PROJECT_DIR/src
-$bash train.sh
-```
-The following training config parameters can be set in train.sh 
-```
-# Contents of train.sh
-PIPELINE_CONFIG_PATH=PROJECT_DIR/config/prod_det_pipeline.config
-MODEL_DIR=PROJECT_DIR/model_logs
-NUM_TRAIN_STEPS=50000
-python object_detection/model_main.py \
-    --pipeline_config_path=${PIPELINE_CONFIG_PATH} \
-    --model_dir=${MODEL_DIR} \
-    --num_train_steps=${NUM_TRAIN_STEPS} \
-    --alsologtostderr
-```
-where `${PIPELINE_CONFIG_PATH}` points to the pipeline config and
-`${MODEL_DIR}` points to the directory in which training checkpoints
-and events will be written to. 
-
-## Running Tensorboard
-
-Progress for training and eval jobs can be inspected using Tensorboard. If
-using the recommended directory structure, Tensorboard can be run using the
-following command:
-
-```bash
-$tensorboard --logdir=${MODEL_DIR}
-```
-
-where `${MODEL_DIR}` points to the directory that contains the
-train and eval directories. Please note it may take Tensorboard a couple minutes
-to populate with data.
+○ Does this problem require multiple anchors? Please justify your answer.
+One anchor box would suffice in this problem. The aspect ratios of ground truth bounding box 
+data are in the range of about 0.5-0.8. A mean value of 0.65 can be used as aspect ratio 
+defining the anchor box per cell. The variance of aspect ratios in this dataset being small, 
+the object detection network would easily be able to learn to predict accurate bounding boxes.
