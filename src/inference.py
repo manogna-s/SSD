@@ -8,7 +8,7 @@ import numpy as np
 PROJECT_DIR = '../'
 GRAPH_PB_PATH = os.path.join(PROJECT_DIR, 'trained_model/frozen_inference_graph.pb')
 TEST_DIR = os.path.join(PROJECT_DIR, 'data/ShelfImages/test')
-RESULTS_JSON_FILE=os.path.join(PROJECT_DIR, 'data/img2products.json')
+RESULTS_JSON_FILE=os.path.join(PROJECT_DIR, 'img2products.json')
 # Load TensorFlow graph from pb file
 detection_graph = tf.Graph()
 with detection_graph.as_default():

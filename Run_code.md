@@ -42,11 +42,15 @@ environment.
       -label_map file
       -train TFRecord file
       -eval TFRecord file
+    +cocoapi
     +src
       + object_detection
       + slim
-    +config
+    +pipeline_configs
       -prod_det_pipeline.config
+    +frozen_graphs
+    +model_logs
+    +trained_checkpoint
 ```
 
 ##Data Preparation
@@ -120,7 +124,8 @@ $python3 object_detection/export_inference_graph.py --input_type=image_tensor\
 --trained_checkpoint_prefix path/to/trained/model.ckpt \
 --output_directory path/to/out/dir/
 ```
-
+Download [trained checkpoint](https://drive.google.com/open?id=12P3eXGi8V_hiwjDxQp8Flf1JrHXSbFyv)
+Place it in $PROJECT_DIR/trained_checkpoint
 ##Inference
 ```bash
 # From PROJECT_DIR/src

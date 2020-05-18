@@ -1,5 +1,6 @@
 cd $PROJECT_DIR/src
 pip3 install tensorflow==1.14
+pip3 install --user numpy==1.17
 pip3 install --user Cython
 pip3 install --user contextlib2
 pip3 install --user pillow
