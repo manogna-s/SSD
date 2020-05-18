@@ -255,7 +255,9 @@ class COCOEvalWrapper(cocoeval.COCOeval):
         ('Recall/AR@100', self.stats[8]),
         ('Recall/AR@100 (small)', self.stats[9]),
         ('Recall/AR@100 (medium)', self.stats[10]),
-        ('Recall/AR@100 (large)', self.stats[11])
+        ('Recall/AR@100 (large)', self.stats[11]),
+        ('Precision@0.3 ScoreThresh', self.stats[12]),
+        ('Recall@0.3 ScoreThresh', self.stats[13]),
     ])
     if not include_metrics_per_category:
       return summary_metrics, {}
