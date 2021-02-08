@@ -4,7 +4,7 @@ SSD network based on MobileNetv1 feature extractor is used in this model.
 The [pretrained model](http://download.tensorflow.org/models/object_detection/ssd_mobilenet_v1_coco_2018_01_28.tar.gz) used was trained on COCO dataset.
 The input size for the network used was 300x300.
 
-##Training configuration
+## Training configuration
 
 * Batch size: 24
 * Data augmentation:
@@ -35,7 +35,7 @@ optimizer {
 Refer to config/prod_det_pipeline.config for model configuration details.
 
  
-##Q & A:
+## Q & A:
 * What is the purpose of using multiple anchors per feature map cell?
 Anchor boxes span different shapes of object bounding boxes possible. Aspect ratios which are 
 basically the width to height ratio of a box captures the shape of a rectangular bounding box. 
@@ -47,7 +47,7 @@ dataset, analyzing the distribution of aspect ratios in the available ground tru
 choose the aspect ratios for the respective task.
 
 
-○ Does this problem require multiple anchors? Please justify your answer.
+* Does this problem require multiple anchors? Please justify your answer.
 One anchor box would suffice in this problem. The aspect ratios of ground truth bounding box 
 data are in the range of about 0.5-0.8. A mean value of 0.65 can be used as aspect ratio 
 defining the anchor box per cell. The variance of aspect ratios in this dataset being small, 
